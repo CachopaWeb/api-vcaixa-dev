@@ -1,0 +1,45 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Testando documentação api",
+        "description": "teste de documentação",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "paths": {
+        "/movimentacao": {
+            "get": {
+                "tags": [
+                    "Busca as movimentações do dia."
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "saldoTotal": {
+                                "properties": {
+                                    "saldoTotal": {
+                                        "type": "number" 
+                                    }
+                                }
+                            },
+                            "movimentoDia":{
+                                "properties": {
+                                    "mov_codigo": {
+                                        "type": "number"
+                                    },
+                                    "mov_descricao": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
