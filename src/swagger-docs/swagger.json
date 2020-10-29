@@ -2,41 +2,157 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "Testando documentação api",
-        "description": "teste de documentação",
+        "title": "vcaixa.dev API",
+        "description": "Documentação da API vcaixa.dev",
         "license": {
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
         }
     },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Desenvolvimento local, ou no Heroku"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Movimentação",
+            "description": "API para cadastros e consultas de movimentações"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "paths": {
-        "/movimentacao": {
+        "/movimentacoes": {
             "get": {
                 "tags": [
-                    "Busca as movimentações do dia."
+                    "Movimentação"
+                ],
+                "summary": "Busca todas as movimentações",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Movimento"
+                        }
+                    },
+                    "400": {
+                        "description": "Falha. Movimentação não encontrados."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Movimentação"
+                ],
+                "summary": "Cria um registro de movimentação",
+                "requestBody": {
+                    "description": "Objeto Movimentação",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Movimento"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "schema": {
+                            "$ref": "#/definitions/Movimento"
+                        }
+                    },
+                    "400": {
+                        "description": "Falha. Dados incorretos."
+                    }
+                }
+            }
+        },
+        "/movimentacoes/{categoria}": {
+            "parameters": [
+                {
+                    "name": "categoria",
+                    "in": "path",
+                    "required": true,
+                    "description": "Categoria da movimentação",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Movimentação"
+                ],
+                "summary": "Busca a movimentação pela categoria",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoria",
+                        "required": true,
+                        "description": "Categoria da Movimentação",
+                        "schema": {
+                            "$ref": "#/definitions/categoria"
+                        }
+                    }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "saldoTotal": {
-                                "properties": {
-                                    "saldoTotal": {
-                                        "type": "number" 
-                                    }
-                                }
-                            },
-                            "movimentoDia":{
-                                "properties": {
-                                    "mov_codigo": {
-                                        "type": "number"
-                                    },
-                                    "mov_descricao": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
+                            "$ref": "#/definitions/Movimentacao"
                         }
+                    },
+                    "404": {
+                        "description": "Falha. Movimentação não encontrada."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "categoria": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Movimento": {
+            "type": "object",
+            "properties": {
+                "mov_descricao": {
+                    "type": "string"
+                },
+                "mov_categoria": {
+                    "type": "string"
+                },
+                "mov_entrada": {
+                    "type": "number"
+                },
+                "mov_saida": {
+                    "type": "number"
+                }                
+            }
+        },
+        "Movimentacao": {
+            "type": "object",
+            "properties": {
+                "saldoTotal": {
+                    "type": "number"
+                },
+                "movimentoDia": {
+                    "type": "array",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Movimento"
                     }
                 }
             }

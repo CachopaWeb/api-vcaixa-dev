@@ -5,6 +5,8 @@ import db from '../Database/database_postgres';
 
 const sql_select = 'SELECT MOV_CODIGO, MOV_DATA, MOV_DESCRICAO, MOV_CATEGORIA, MOV_ENTRADA, MOV_SAIDA, MOV_SALDO_ANTERIOR FROM MOVIMENTACOES';
 
+const sql_select_category = 'SELECT MOV_CODIGO, MOV_DATA, MOV_DESCRICAO, MOV_CATEGORIA, MOV_ENTRADA, MOV_SAIDA, MOV_SALDO_ANTERIOR FROM MOVIMENTACOES WHERE MOV_CATEGORIA LIKE $1';
+
 const sql_insert = 'INSERT INTO MOVIMENTACOES(MOV_DESCRICAO, MOV_DATA, MOV_CATEGORIA, MOV_ENTRADA, MOV_SAIDA, MOV_SALDO_ANTERIOR)'
                   +'VALUES ($1, $2, $3, $4, $5, $6)';
 
@@ -24,7 +26,25 @@ export default {
                 "movimentoDia": movimentacao
             });
         } catch (error) {
-            res.status(400).json({"error": error})
+            res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
+        }
+    },
+    async find_category(req: Request, res: Response){
+        try {
+            const { categoria } = req.params;
+            if (!categoria){
+                throw new Error('Categoria não informada!')
+            }                
+            console.log(categoria)
+            const { rows } = await db.query(sql_select_category, [`%${categoria.toUpperCase()}%`]);
+            console.log(rows)
+            var movimentacao: any[] = [...rows];
+            
+            res.status(200).json({
+                "movimentoDia": movimentacao
+            });
+        } catch (error) {
+            res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
         }
     },
     async create(req: Request, res: Response){
@@ -50,16 +70,14 @@ export default {
             const { rowCount } = await db.query(sql_insert, [
                 mov_descricao,
                 new Date(),
-                mov_categoria,
+                mov_categoria.toUpperCase(),
                 mov_entrada,
                 mov_saida,
                 saldoAnt
             ]);
-           
             res.status(201).json({"status": "ok", novo_movimento, rowCount});
         } catch (error) {
-            console.log('erro ao criar registro na tabela de movimentação\n'+error)
-            res.status(400).json(error);
+            res.status(400).json({"error": error, "message": 'Falha. Dados incorretos.'});
         }
     },
 }

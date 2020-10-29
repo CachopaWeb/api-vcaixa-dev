@@ -16,6 +16,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerjson));
 
 //rotas
 app.get('/movimentacoes', MovimentacoesController.index);
+app.get('/movimentacoes/:categoria', MovimentacoesController.find_category);
 app.post('/movimentacoes', MovimentacoesController.create);
 
 //inicializacao
