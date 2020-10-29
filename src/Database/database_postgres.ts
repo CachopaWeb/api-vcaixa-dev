@@ -1,11 +1,15 @@
-import { Pool } from 'pg'
+import { Client } from 'pg'
 
-const conexao = new Pool({
+const conexao = new Client({
    connectionString: process.env.DATABASE_URL
 });
 
-conexao.on('connect', ()=> console.log('Banco de dados conectado com sucesso!'));
+conexao.connect();
+
+async function query(sql: any){
+   return await conexao.query(sql);
+}
 
 export default {
-   query: (sql: any, parms?: any) => conexao.query(sql, parms)
+   query: query
 }

@@ -17,7 +17,7 @@
     ],
     "tags": [
         {
-            "name": "Movimentação",
+            "name": "Movimentações",
             "description": "API para cadastros e consultas de movimentações"
         }
     ],
@@ -31,7 +31,7 @@
         "/movimentacoes": {
             "get": {
                 "tags": [
-                    "Movimentação"
+                    "Movimentações"
                 ],
                 "summary": "Busca todas as movimentações",
                 "responses": {
@@ -48,7 +48,7 @@
             },
             "post": {
                 "tags": [
-                    "Movimentação"
+                    "Movimentações"
                 ],
                 "summary": "Cria um registro de movimentação",
                 "requestBody": {
@@ -90,7 +90,7 @@
             ],
             "get": {
                 "tags": [
-                    "Movimentação"
+                    "Movimentações"
                 ],
                 "summary": "Busca a movimentação pela categoria",
                 "parameters": [
@@ -108,7 +108,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Movimentacao"
+                            "$ref": "#/definitions/Movimento"
                         }
                     },
                     "404": {
@@ -129,16 +129,16 @@
         "Movimento": {
             "type": "object",
             "properties": {
-                "mov_descricao": {
+                "descricao": {
                     "type": "string"
                 },
-                "mov_categoria": {
+                "categoria": {
                     "type": "string"
                 },
-                "mov_entrada": {
+                "entrada": {
                     "type": "number"
                 },
-                "mov_saida": {
+                "saida": {
                     "type": "number"
                 }                
             }
@@ -150,7 +150,7 @@
                     "type": "number"
                 },
                 "movimentoDia": {
-                    "type": "array",
+                    "type": "object",
                     "additionalProperties": {
                         "$ref": "#/definitions/Movimento"
                     }
