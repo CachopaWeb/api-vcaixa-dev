@@ -12,5 +12,5 @@ async function query(sql: any){
 }
 
 export default {
-   query: query
+   query
 }

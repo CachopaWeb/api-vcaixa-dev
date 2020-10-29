@@ -1,31 +1,34 @@
 import { Request, Response } from 'express';
+import RepositoryMovimentacao from '../Repositories/Movimentacao.Repository';
 import Movimentacao from '../Models/Movimentacoes';
+import Categoria from '../Models/Categoria';
 
 export default {
-    async index(req: Request, res: Response){
+    async Listar(req: Request, res: Response){
         try {
             const { dataInicial, dataFinal } = req.query;
-            var movimento = new Movimentacao();
-            const { soma, movimentacao } = await movimento.BuscaMovimentacao(dataInicial as String, dataFinal as String);
+            var respository = new RepositoryMovimentacao();
+            const { saldo, novo_movimentacoes } = await respository.BuscaMovimentacao(dataInicial as String, dataFinal as String);
             res.status(200).json({
-                "saldoTotal": soma,
-                "movimentacao": movimentacao
+                "saldoTotal": saldo,
+                "movimentacoes": novo_movimentacoes
             });
         } catch (error) {
             res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
         }
     },
-    async buscaPorCategoria(req: Request, res: Response){
+    async BuscaPorCategoria(req: Request, res: Response){
         try {
-            const { categoria } = req.params;
-            if (!categoria){
-                throw new Error('Categoria não informada!')
+            const { categoria_id } = req.params;
+            console.log(categoria_id)
+            if (!categoria_id){
+                throw new Error('Id da Categoria não informado!')
             }                
-            var movimento = new Movimentacao();
-            const { rows } = await movimento.BuscarPorCategoria(categoria);
+            var respository = new RepositoryMovimentacao();
+            const response = await respository.BuscarPorCategoria(categoria_id);
 
             res.status(200).json({
-                "movimentacao": rows
+                "movimentacoes": response
             });
         } catch (error) {
             res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
@@ -33,17 +36,20 @@ export default {
     },
     async CriaMovimentacao(req: Request, res: Response){
         try {
-            const { descricao, categoria, entrada, saida } = req.body;
-
-            var movimento = new Movimentacao();
+            const { descricao, tipo, categoria_id, valor } = req.body;
+            var movimento = new Movimentacao(); 
+            movimento.data = new Date();
             movimento.descricao = descricao;
+            var categoria = new Categoria();
+            categoria.id = categoria_id;
             movimento.categoria = categoria;
-            movimento.entrada = entrada;
-            movimento.saida = saida;
+            movimento.tipo  = tipo;
+            movimento.valor = valor;
             //insere na base de dados
-            const response = await movimento.Inserir();
-            
-            res.status(201).json({"status": "ok", "movimentacao": response});
+            var respository = new RepositoryMovimentacao();
+            const response = await respository.Inserir(movimento);
+            ////            
+            res.status(201).json({"status": "ok", "movimentacoes": response});
         } catch (error) {
             res.status(400).json({"error": error, "message": 'Falha. Dados incorretos.'});
         }

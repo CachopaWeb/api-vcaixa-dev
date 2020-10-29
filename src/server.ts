@@ -5,6 +5,7 @@ import swaggerjson from './swagger-docs/swagger.json';
 import { Server } from 'http';
 
 import MovimentacoesController from './Controllers/Movimentacoes.Controller';
+import CategoriaController from './Controllers/Categoria.Controller';
 
 class Servidor{
     public app: express.Application;   
@@ -27,9 +28,13 @@ class Servidor{
     private Rotas(){        
         //rotas
         this.app.get('/', (req, res)=> {res.json({"Mensagem": "Seja bem vindo(a) a API vcaxa.dev", "Documentação": `/api-docs`})})
-        this.app.get('/movimentacoes', MovimentacoesController.index);
-        this.app.get('/movimentacoes/:categoria', MovimentacoesController.buscaPorCategoria);
+        //movimentacao
+        this.app.get('/movimentacoes', MovimentacoesController.Listar);
+        this.app.get('/movimentacoes/:categoria_id', MovimentacoesController.BuscaPorCategoria);
         this.app.post('/movimentacoes', MovimentacoesController.CriaMovimentacao);
+        //categoria
+        this.app.get('/categorias', CategoriaController.Listar);
+        this.app.post('/categorias', CategoriaController.CriarCategoria);
     }
 
     Start(){

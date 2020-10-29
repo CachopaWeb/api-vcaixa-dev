@@ -1,16 +1,25 @@
-# Teste API Caixa virtual
+> API vcaixa.dev versão 1.0.0
 
-## Requisito funcional
-[x] O usuário deve ser capaz de cadastrar entradas e saídas categorizadas.
-[x] O usuário deve ser capaz de visualizar os conteúdo armazenado através de uma API podendo usar filtros de data e por categoria.
+API para a criação de movimentações para controle de caixa.
 
-## Requisito não-funcional
-* Node.js, express e typescript 
-* Banco de dados Postgres
-* Teste de integração 
-* Documentação - Swagger docs
-* Publicar o projeto no github
-* Hospedar a aplicação no Heroku ou AWS
-## Regra de negócio
-* Criar métodos para inserção de dados (Post), e consulta (Get) para a rota `/movimentacoes`
-* Trazer na consulta (Get) resumo da carteira com: Saldo Total e as movimentações do dia, podendo ser filtradas por data e por categoria.
+## Requisitos
+
+Para executar o projeto vcaixa.dev, você precisará da ferramenta de execução de scripts Javascript Node JS,
+do gerenciador de pacotes e dependêncas npm, ou se preferir usar o yarn:
+`node, npm, yarn`.
+
+## Execução
+
+```bash
+#Crie uma nova pasta e clone o repositório https://github.com/CachopaWeb/api-vcaixa-dev.git
+git clone https://github.com/CachopaWeb/api-vcaixa-dev.git
+#navegue ate a pasta
+cd api-vcaixa-dev
+# Instalar os módulos dependentes
+npm install ou yarn
+# Para executar em modo de desenvolvimento:
+npm dev ou yarn dev
+```
+## Funcionalidades
+- [x] Cadastro de Movimentações e consultas, podendo filtrar por data e categoria
+- [x] Cadastro de Categorias e consultas, para melhor controle das movimentações.

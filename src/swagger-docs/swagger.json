@@ -18,7 +18,11 @@
     "tags": [
         {
             "name": "Movimentações",
-            "description": "API para cadastros e consultas de movimentações"
+            "description": "Rotas da API para cadastros e consultas de movimentações"
+        },
+        {
+            "name": "Categorias",
+            "description": "Rotas da API para cadastros e consultas de categorias"
         }
     ],
     "consumes": [
@@ -96,16 +100,7 @@
                 }
             }
         },
-        "/movimentacoes/{categoria}": {
-            "parameters": [
-                {
-                    "name": "categoria",
-                    "in": "path",
-                    "required": true,
-                    "description": "Categoria da movimentação",
-                    "type": "string"
-                }
-            ],
+        "/movimentacoes/{categoria_id}": {
             "get": {
                 "tags": [
                     "Movimentações"
@@ -114,11 +109,11 @@
                 "parameters": [
                     {
                         "in": "path",
-                        "name": "categoria",
+                        "name": "categoria_id",
                         "required": true,
-                        "description": "Categoria da Movimentação",
+                        "description": "Id Categoria da Movimentação",
                         "schema": {
-                            "$ref": "#/definitions/categoria"
+                            "$ref": "#/definitions/categoria_id"
                         }
                     }
                 ],
@@ -126,7 +121,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Movimento"
+                            "$ref": "#/definitions/Movimentacao"
                         }
                     },
                     "404": {
@@ -134,10 +129,60 @@
                     }
                 }
             }
+        },
+        "/categorias": {
+            "get": {
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Busca as Categorias cadastradas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Categoria"
+                        }
+                    },
+                    "400": {
+                        "description": "Falha. Categoria não encontrada."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categorias"
+                ],
+                "summary": "Cria uma nova categoria",
+                "requestBody": {
+                    "description": "Objeto Categoria",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Categoria_response"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "schema": {
+                            "$ref": "#/definitions/Categoria"
+                        }
+                    },
+                    "400": {
+                        "description": "Falha. Dados incorretos."
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "categoria": {
+        "categoria_id": {
             "properties": {
                 "uuid": {
                     "type": "string"
@@ -171,6 +216,36 @@
                     "type": "object",
                     "additionalProperties": {
                         "$ref": "#/definitions/Movimento"
+                    }
+                }
+            }
+        },
+        "Categoria": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }                
+            }
+        },
+        "Categoria_response": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }                
+            }
+        },
+        "Categorias": {
+            "type": "object",
+            "properties": {
+                "Categorias": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Categoria"
                     }
                 }
             }

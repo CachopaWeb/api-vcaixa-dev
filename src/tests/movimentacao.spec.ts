@@ -22,9 +22,9 @@ describe('Inicio dos teste na rota de Movimentações.', ()=>{
     });
 
     it('Testando a rota que busca a movimentação do dia.', async ()=> {
-        const response = await request(servidor.app).get('/movimentacoes/recebimentos');
+        const response = await request(servidor.app).get('/movimentacoes');
         expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('movimentacao');
+        expect(response.body).toHaveProperty('movimentacoes');
     });
 
     it('Testando a rota que busca a movimentação do por período.', async ()=> {
@@ -32,25 +32,38 @@ describe('Inicio dos teste na rota de Movimentações.', ()=>{
         const dataFinal = new Date().toDateString();
         const response = await request(servidor.app).get('/movimentacoes').query(`?dataInicial=${dataInicial}&dataFinal=${dataFinal}`);
         expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('movimentacao');
+        expect(response.body).toHaveProperty('movimentacoes');
     });
 
     it('Testando a inserção de um novo movimento.', async ()=>{
         const response = await request(servidor.app).post('/movimentacoes').send({
             "descricao": "RC - CONSUMIDOR",
-            "categoria": "RECEBIMENTO",
-            "entrada": 500,
-            "saida": 0
+            "tipo": "ENTRADA",
+            "categoria_id": 1,
+            "valor": 368.00
         });
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('movimentacao');
+        expect(response.body).toHaveProperty('movimentacoes');
     });
 
     it('Testando a rota que busca por uma determinada categoria.', async ()=> {
-        const categoria = 'recebimento';
+        const categoria = '1';
         const response = await request(servidor.app).get(`/movimentacoes/${categoria}`);
         expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('movimentacao');
+        expect(response.body).toHaveProperty('movimentacoes');
     })    
 }
 );
+
+describe('Inicio dos testes na rota Categorias', ()=>{
+    it('Testando criação de categorias', async ()=> {
+        const response = await request(servidor.app).post('/categorias').send({
+            "name": "RECEBIMENTO"
+        })
+        expect(response.status).toBe(201);
+    })
+    it('Testando a busca de categorias', async ()=> {
+        const response = await request(servidor.app).get('/categorias');
+        expect(response.status).toBe(200);
+    })
+})
