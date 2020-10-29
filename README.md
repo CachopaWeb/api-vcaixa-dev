@@ -23,3 +23,16 @@ npm dev ou yarn dev
 ## Funcionalidades
 - [x] Cadastro de Movimentações e consultas, podendo filtrar por data e categoria
 - [x] Cadastro de Categorias e consultas, para melhor controle das movimentações.
+
+## Teste de integração
+
+Para executar os testes de integração faça da seguinte forma:
+```bash
+# Usa o framework Jest para executar os testes
+npm jest ou yarn jest
+```
+
+## Documentação
+
+Para visualizar a documentação navegue até [/api-docs], lá estará uma documentação gerada
+utilizando o Swagger-docs, com todas as rotas da aplicação
