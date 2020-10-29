@@ -30,10 +30,28 @@
     "paths": {
         "/movimentacoes": {
             "get": {
+                "parameters": [
+                    {
+                        "name": "dataInicial",
+                        "in": "query",
+                        "required": false,
+                        "description": "Data inicio do movimento",
+                        "type": "string",
+                        "format":"date"
+                    },
+                    {
+                        "name": "dataFinal",
+                        "in": "query",
+                        "required": false,
+                        "description": "Data final do movimento",
+                        "type": "string",
+                        "format": "date"
+                    }
+                ],
                 "tags": [
                     "Movimentações"
                 ],
-                "summary": "Busca todas as movimentações",
+                "summary": "Busca movimentações do dia",
                 "responses": {
                     "200": {
                         "description": "OK",

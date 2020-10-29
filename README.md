@@ -1,9 +1,8 @@
 # Teste API Caixa virtual
 
 ## Requisito funcional
-[*] O usuário deve ser capaz de cadastrar entradas e saídas categorizadas.
-[*] O usuário deve ser capaz de criar categorias para organização.
-[*] O usuário deve ser capaz de visualizar os conteúdo armazenado através de uma API.
+[x] O usuário deve ser capaz de cadastrar entradas e saídas categorizadas.
+[x] O usuário deve ser capaz de visualizar os conteúdo armazenado através de uma API podendo usar filtros de data e por categoria.
 
 ## Requisito não-funcional
 * Node.js, express e typescript 

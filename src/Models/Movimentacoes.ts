@@ -1,8 +1,5 @@
 import db from '../Database/database_postgres';
 
-const sql_select = 'SELECT codigo, data, descricao, categoria, entrada, saida, saldo_anterior FROM MOVIMENTACOES';
-
-
 class Movimentacao {
     public codigo?: number;
 
@@ -21,7 +18,7 @@ class Movimentacao {
     async Inserir() {
         try {
             var saldoAnt: number = 0.0
-            const { rows: mov } = await db.query(sql_select);
+            const { rows: mov } = await db.query(`SELECT codigo, data, descricao, categoria, entrada, saida, saldo_anterior FROM MOVIMENTACOES`);
             if (mov) {
                 mov.map((movimento: Movimentacao) => {
                     saldoAnt += movimento.entrada - movimento.saida;
@@ -47,9 +44,15 @@ class Movimentacao {
         }
     }
 
-    async BuscaTodos(){
+    async BuscaMovimentacao(dataInicial: String, dataFinal: String){
         var soma = 0.0;
-        const { rows } = await db.query(sql_select);
+        console.log(dataInicial as string, dataFinal as string)
+        var sql = `SELECT codigo, data, descricao, categoria, entrada, saida, saldo_anterior FROM MOVIMENTACOES WHERE data = '${new Date().toLocaleDateString()}'`;
+        if ((dataInicial) && (dataFinal)){
+            sql = `SELECT codigo, data, descricao, categoria, entrada, saida, saldo_anterior FROM MOVIMENTACOES WHERE data >= '${dataInicial}' AND data <= '${dataFinal}'`;
+            console.log(sql)
+        }
+        const { rows } = await db.query(sql);
         var movimentacao: any[] = [...rows];
         if (movimentacao){
             movimentacao.map((mov: Movimentacao)=> {

@@ -4,17 +4,18 @@ import Movimentacao from '../Models/Movimentacoes';
 export default {
     async index(req: Request, res: Response){
         try {
+            const { dataInicial, dataFinal } = req.query;
             var movimento = new Movimentacao();
-            const { soma, movimentacao } = await movimento.BuscaTodos();
+            const { soma, movimentacao } = await movimento.BuscaMovimentacao(dataInicial as String, dataFinal as String);
             res.status(200).json({
                 "saldoTotal": soma,
-                "movimentoDia": movimentacao
+                "movimentacao": movimentacao
             });
         } catch (error) {
             res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
         }
     },
-    async find_category(req: Request, res: Response){
+    async buscaPorCategoria(req: Request, res: Response){
         try {
             const { categoria } = req.params;
             if (!categoria){
@@ -24,13 +25,13 @@ export default {
             const { rows } = await movimento.BuscarPorCategoria(categoria);
 
             res.status(200).json({
-                "movimentoDia": rows
+                "movimentacao": rows
             });
         } catch (error) {
             res.status(400).json({"error": error, "message": 'Falha. Movimentação não encontrada.'});
         }
     },
-    async create(req: Request, res: Response){
+    async CriaMovimentacao(req: Request, res: Response){
         try {
             const { descricao, categoria, entrada, saida } = req.body;
 
