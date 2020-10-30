@@ -4,7 +4,7 @@ const conexao = new Client({
    connectionString: process.env.DATABASE_URL
 });
 
-conexao.connect();
+conexao.connect().then(()=> console.log('banco de dados conectado com sucesso!'));;
 
 async function query(sql: any){
    return await conexao.query(sql);
