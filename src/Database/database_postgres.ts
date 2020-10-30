@@ -1,7 +1,7 @@
 import { Client } from 'pg'
 
 const conexao = new Client({
-   connectionString: process.env.DATABASE_URL || 'postgres://postgres:022693@localhost:5432/vcaixa.dev'
+   connectionString: process.env.DATABASE_URL
 });
 
 conexao.connect();
