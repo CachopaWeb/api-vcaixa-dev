@@ -195,13 +195,13 @@
                 "descricao": {
                     "type": "string"
                 },
-                "categoria": {
+                "tipo": {
                     "type": "string"
                 },
-                "entrada": {
+                "categoria_id": {
                     "type": "number"
                 },
-                "saida": {
+                "valor": {
                     "type": "number"
                 }                
             }

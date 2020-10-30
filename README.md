@@ -17,8 +17,14 @@ git clone https://github.com/CachopaWeb/api-vcaixa-dev.git
 cd api-vcaixa-dev
 # Instalar os módulos dependentes
 npm install ou yarn
+# Executar script de criação de tabelas
+node scripts.js
 # Para executar em modo de desenvolvimento:
 npm dev ou yarn dev
+# Para realizar o build de produção
+npm build ou yarn build
+# Para iniciar o servidor
+npm start ou yarn start
 ```
 ## Funcionalidades
 - [x] Cadastro de Movimentações e consultas, podendo filtrar por data e categoria
