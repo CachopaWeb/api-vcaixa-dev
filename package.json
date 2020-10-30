@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts --transpileOnly",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
