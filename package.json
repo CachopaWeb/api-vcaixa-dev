@@ -7,7 +7,7 @@
     "dev": "ts-node-dev src/index.ts --transpileOnly",
     "test": "jest",
     "build": "tsc",
-    "start": "node src/index.js"
+    "start": "node dist/src/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
