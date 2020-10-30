@@ -3,6 +3,8 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express'
 import swaggerjson from './swagger-docs/swagger.json';
 import { Server } from 'http';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import MovimentacoesController from './Controllers/Movimentacoes.Controller';
 import CategoriaController from './Controllers/Categoria.Controller';
